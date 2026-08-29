@@ -45,6 +45,8 @@ export class TranslationService {
     if (texts.length == 0){
       throw new BatchIsEmpty()
     }
+    const promises = texts.map(text => this.free(text));
+    return Promise.all(promises);
   }
 
   /**
