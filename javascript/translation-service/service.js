@@ -58,9 +58,22 @@ export class TranslationService {
    * @param {string} text
    * @returns {Promise<void>}
    */
-  request(text) {
-    throw new Error('Implement the request function');
-  }
+  async request(text) {
+    const MAX_ATTEMPTS = 3;
+    let attempts = 0;
+    
+    while (attempts < MAX_ATTEMPTS) {
+      try {
+        await this.api.request(text);
+        return;
+      } catch (error) {
+        attempts++;
+        if (attempts === MAX_ATTEMPTS) {
+          throw error;
+        }
+      }
+    }
+}
 
   /**
    * Retrieves the translation for the given text
